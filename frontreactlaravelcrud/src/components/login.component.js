@@ -1,5 +1,48 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 export default class Login extends Component {
+
+	loginuser = event => {
+   let formElement = document.getElementById("login");
+  let  bodyFormData = new FormData(formElement);
+ 
+  let isValid = document.querySelector('#login').reportValidity();
+
+  
+   if (isValid==false) {
+  document.querySelector('#login').reportValidity();
+    formElement.classList.add('was-validated')
+   }else{
+ 
+axios({
+  method: "post",
+  url: "http://127.0.0.1:8000/api/auth/login",
+  data: bodyFormData,
+  headers: { "Content-Type": "multipart/form-data" },
+}).then(function (response) {
+    //handle success
+    console.log(response['data']['ok']);
+    if(response['data']['ok']==false){
+    console.log(response['data']['user'])	
+      alert(response['data']['user'])   
+     return false;
+      }
+
+if(response['data']['ok']==true){
+     let userlogeado= response['data']['user']['id'];
+     //console.log(userlogeado);
+  let token= response['data']['token']
+     localStorage.setItem('userlogeado',userlogeado );
+     localStorage.setItem('token',token );
+        }
+
+    //alert(response['data']['menssage']);
+  }).catch(function (response) {
+    //handle error
+    console.log(response);
+  });
+  }
+  }
   render() {
     return (
       <form  id="login">
@@ -7,7 +50,7 @@ export default class Login extends Component {
         <div className="mb-3">
           <label>Email address</label>
           <input
-            type="email"
+            type="email"name="email"
             className="form-control"
             placeholder="Enter email"
           />
@@ -15,7 +58,7 @@ export default class Login extends Component {
         <div className="mb-3">
           <label>Password</label>
           <input
-            type="password"
+            type="password" name="password"
             className="form-control"
             placeholder="Enter password"
           />
@@ -33,7 +76,7 @@ export default class Login extends Component {
           </div>
         </div>
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button type="button"onClick={this.loginuser} className="btn btn-primary">
             Submit
           </button>
         </div>
