@@ -26,7 +26,7 @@ class Product extends Model
     static $rules = [
 		'name' => 'required',
 		'descripccion' => 'required',
-		'imagenproducto' => 'required',
+		
 		'usuarios_id' => 'required',
     ];
 
@@ -37,7 +37,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','descripccion','imagenproducto','usuarios_id'];
+    protected $fillable = ['name','descripccion','usuarios_id'];
 
 
     /**

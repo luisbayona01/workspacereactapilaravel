@@ -30,13 +30,12 @@ class ProductController extends Controller
         $usuariologeado=$request->usuariologeado;
         $nameproducto=$request->name;
 		$descripccion=$request->descripccion;
-		$imagenproducto=$request->imagenproducto;
+		
 		//$usuarios_id = $usuariologeado
         $product = Product::create([
 
             'name' => $nameproducto,
             'descripccion' => $descripccion,
-            'imagenproducto' => $imagenproducto,
             'usuarios_id' =>  $usuariologeado,
 
     ]);
@@ -65,11 +64,11 @@ class ProductController extends Controller
         $usuariologeado=$request->usuariologeado;
         $nameproducto=$request->name;
 		$descripccion=$request->descripccion;
-		$imagenproducto=$request->imagenproducto;
+		
         $product = Product::find($id);
         $product->name =$nameproducto;
         $product->descripccion =$descripccion;
-        $product->imagenproducto =$imagenproducto;
+      
         $product->usuarios_id = $usuariologeado;
 
         if( $product->save()){
