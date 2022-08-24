@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React, { useState, Component } from 'react'
 import axios from 'axios';
-export default class Login extends Component {
-
-	loginuser = event => {
+import Loading from './loading.component.js'
+const Login = () => {
+const [isLoading, setIsLoading] = useState(false)
+	const loginuser = (event) => {
+    setIsLoading(true)
    let formElement = document.getElementById("login");
   let  bodyFormData = new FormData(formElement);
  
@@ -34,17 +36,24 @@ if(response['data']['ok']==true){
   let token= response['data']['token']
      localStorage.setItem('userlogeado',userlogeado );
      localStorage.setItem('token',token );
+     localStorage.setItem('isLogin', true)
+     window.location.href="/products"
         }
-
+        setIsLoading(false)
     //alert(response['data']['menssage']);
   }).catch(function (response) {
     //handle error
     console.log(response);
+    setIsLoading(false)
   });
   }
   }
-  render() {
+  if(isLoading){
+      <Loading />
+  }else{
+
     return (
+
       <form  id="login">
         <h3>Sign In</h3>
         <div className="mb-3">
@@ -76,7 +85,7 @@ if(response['data']['ok']==true){
           </div>
         </div>
         <div className="d-grid">
-          <button type="button"onClick={this.loginuser} className="btn btn-primary">
+          <button type="button"onClick={loginuser} className="btn btn-primary">
             Submit
           </button>
         </div>
@@ -85,5 +94,6 @@ if(response['data']['ok']==true){
         </p>
       </form>
     )
-  }
-}
+}}
+
+export default Login;
